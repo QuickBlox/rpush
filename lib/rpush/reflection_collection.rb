@@ -6,7 +6,7 @@ module Rpush
       :apns_feedback, :notification_enqueued, :notification_delivered,
       :notification_failed, :notification_will_retry,
       :fcm_delivered_to_recipient, :fcm_failed_to_recipient, :fcm_canonical_id, :fcm_invalid_device_token,
-      :error, :adm_canonical_id, :adm_failed_to_recipient, :wns_invalid_channel,
+      :error, :adm_canonical_id, :adm_failed_to_recipient, :wns_invalid_channel, :fcm_invalid_authentication,
       :ssl_certificate_will_expire, :ssl_certificate_revoked,
       :notification_id_will_retry, :notification_id_failed
     ]

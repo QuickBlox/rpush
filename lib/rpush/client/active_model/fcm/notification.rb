@@ -17,6 +17,7 @@ module Rpush
             base.instance_eval do
               validates :device_token, presence: true
               validates :priority, inclusion: { in: FCM_PRIORITIES }, allow_nil: true
+              validates :validate_only, inclusion: { in: [true, false] }
 
               validates_with Rpush::Client::ActiveModel::PayloadDataSizeValidator, limit: 4096
               validates_with Rpush::Client::ActiveModel::RegistrationIdsCountValidator, limit: 1000
@@ -49,15 +50,19 @@ module Rpush
           end
 
           def as_json(options = nil) # rubocop:disable Metrics/PerceivedComplexity
-            json = {
+            message = {
               'data' => data,
               'android' => android_config,
               'apns' => apns_config,
               'token' => device_token
             }
 
-            json['notification'] = root_notification if notification
-            { 'message' => json }
+            message['content_available'] = content_available if content_available
+            message['notification'] = root_notification if notification
+
+            json = {'message' => message}
+            json['validate_only'] = validate_only if validate_only
+            json
           end
 
           def android_config
